@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useStore } from '@/lib/store';
-import { ProductCard } from './product-card';
+import React from "react";
+import { motion } from "framer-motion";
+import { useStore } from "@/lib/store";
+import { ProductCard } from "./product-card";
 
 export function ProductShowcase() {
   const products = useStore((state) => state.products);
-  const featuredProducts = products.filter(product => product.featured);
+  const featuredProducts = products.filter((product) => product.featured);
 
   return (
     <section id="products" className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -31,7 +31,7 @@ export function ProductShowcase() {
           {featuredProducts.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} />
           ))}
-        </div>
+        </div> */}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

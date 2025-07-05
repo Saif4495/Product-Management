@@ -27,7 +27,6 @@ export function Navigation() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement your search logic here
     console.log("Searching for:", searchQuery);
   };
 
@@ -37,61 +36,91 @@ export function Navigation() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800"
+        className=" fixed top-0 w-full z-50 backdrop-blur-md bg-black/20 border-b border-white/10"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo with Link - Left side */}
-            <Link href="/" className="flex items-center space-x-3 shrink-0">
-              <div className="relative w-10 h-10">
-                <img
-                  src="/images/logo.png"
-                  alt="Blissful Aura Candles Logo"
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hidden sm:block">
-                Blissful Aura
-              </span>
-            </Link>
+          <div className="flex items-center justify-between h-20">
+            {/* Mobile Menu Button - Left side */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden rounded-full text-gray-700 dark:text-p-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </Button>
 
-            {/* Search Bar - Center */}
-            <div className="flex-1 max-w-2xl mx-4">
-              <form onSubmit={handleSearch} className="relative">
-                <div className="relative flex items-center">
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+            {/* Logo - Center */}
+            <div className="flex-1 flex pl-10">
+              <Link
+                href="/"
+                className="flex items-center space-x-3 shrink-0 group"
+              >
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 1 }}
+                  className="relative w-20 h-25"
+                >
+                  <img
+                    src="/images/logo.png"
+                    alt="Blissful Aura Candles Logo"
+                    className="w-full h-full object-contain"
                   />
-                  <Search className="absolute left-3 h-5 w-5 text-gray-400" />
-                </div>
-              </form>
+                </motion.div>
+                <motion.span
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="text-xl font-bold bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent hidden sm:block group-hover:bg-gradient-to-r group-hover:from-pink-600 group-hover:to-purple-600 transition-all"
+                >
+                  Blissful Aura Candels
+                </motion.span>
+              </Link>
+            </div>
+
+            {/* Desktop Navigation - Center */}
+            <div className="hidden md:flex items-center justify-center flex-1">
+              <div className="flex items-center space-x-1 rounded-full p-1">
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.label}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Link
+                      href={item.href}
+                      className="px-4 py-2 text-sm font-medium rounded-full text-gray-100 dark:text-gray-100 hover:text-white transition-all"
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
             </div>
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-3">
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-6">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
+              {/* Search Button - Shows search bar on click */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="rounded-full text-gray-100 dark:text-gray]]-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                aria-label="Search"
+              >
+                <Search className="w-5 h-5" />
+              </Button>
 
               {/* Theme Toggle */}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="rounded-full text-gray-100 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 aria-label="Toggle theme"
               >
                 {theme === "dark" ? (
@@ -106,33 +135,47 @@ export function Navigation() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsCartOpen(true)}
-                className="relative rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="relative rounded-full text-gray-100 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 aria-label="Shopping cart"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+                  >
                     {totalItems}
-                  </span>
-                )}
-              </Button>
-
-              {/* Mobile Menu Button */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? (
-                  <X className="w-5 h-5" />
-                ) : (
-                  <Menu className="w-5 h-5" />
+                  </motion.span>
                 )}
               </Button>
             </div>
           </div>
+
+          {/* Search Bar - Appears below when activated */}
+          {searchOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="px-4 py-3"
+            >
+              <form onSubmit={handleSearch} className="relative">
+                <div className="relative flex items-center">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    autoFocus
+                  />
+                  <Search className="absolute left-3 h-5 w-5 text-gray-400" />
+                </div>
+              </form>
+            </motion.div>
+          )}
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
@@ -155,16 +198,21 @@ export function Navigation() {
                   <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              <div className="flex flex-col space-y-3 pb-4 px-4">
+              <div className="flex flex-col space-y-2 pb-4 px-4">
                 {navItems.map((item) => (
-                  <Link
+                  <motion.div
                     key={item.label}
-                    href={item.href}
-                    className="px-3 py-2 text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    {item.label}
-                  </Link>
+                    <Link
+                      href={item.href}
+                      className="block px-4 py-3 text-sm font-medium rounded-lg text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>

@@ -22,8 +22,6 @@ export default function Home() {
       <TestimonialsSection />
       <ContactSection />
       <Footer />
-
-      {/* WhatsApp Floating Action Button */}
       <WhatsAppFAB />
     </div>
   );
